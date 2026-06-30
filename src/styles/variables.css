@@ -1,0 +1,39 @@
+:root {
+  /* PROPEL Brand */
+  --color-primary: #34a853;
+  --color-primary-dark: #2e7d32;
+  --color-primary-light: #e8f5e9;
+
+  /* Status */
+  --color-success: #34a853;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Neutral */
+  --color-bg: #f6f8f7;
+  --color-surface: #ffffff;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  /* Shadow */
+  --shadow-card: 0 8px 24px rgba(17, 24, 39, 0.08);
+  --shadow-action: 0 10px 24px rgba(52, 168, 83, 0.28);
+
+  /* Layout */
+  --max-mobile-width: 480px;
+}
