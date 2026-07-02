@@ -55,9 +55,9 @@
       <div class="hero-message">
         <p class="hero-eyebrow">오늘 출고 관리</p>
         <h2>출고 예정 <strong>${n.ready}건</strong></h2>
-        <p><p>
+        <p>
 CJ · 경동 배송을 확인하고 출고하세요.
-</p></p>
+</p>
       </div>
     </header>
 
@@ -113,7 +113,7 @@ CJ · 경동 배송을 확인하고 출고하세요.
     >
       ${t}
     </button>
-  `}function b(){let e=l().length;return y({id:`shipButton`,text:e>0?`선택 ${e}건 출고완료`:`선택 0건`,variant:e>0?`primary`:`disabled`,disabled:e===0})}function x(){document.querySelector(`#appScreen`).innerHTML=v({bottomAction:b()}),S(),T(),w(),E()}function S(){document.querySelectorAll(`.order-card`).forEach(e=>{e.addEventListener(`click`,e=>{let t=e.target.closest(`.order-card`);t&&(d(t.dataset.orderId),x())})})}var C=null;function w(){let e=document.querySelector(`#searchInput`);e&&e.addEventListener(`input`,e=>{let t=e.target.value;clearTimeout(C),C=setTimeout(()=>{f(t),x()},300)})}function T(){document.querySelectorAll(`.filter-chip`).forEach(e=>{e.addEventListener(`click`,()=>{p(e.dataset.filter),x()})})}function E(){let e=document.querySelector(`#shipButton`);e&&e.addEventListener(`click`,()=>{m()!==0&&x()})}function D(){return`
+  `}function b(){let e=l().length;return y({id:`shipButton`,text:e>0?`선택 ${e}건 출고완료`:`선택 0건`,variant:e>0?`primary`:`disabled`,disabled:e===0})}function x(){document.querySelector(`#appScreen`).innerHTML=v({bottomAction:b()}),S(),w(),C(),T()}function S(){document.querySelectorAll(`.order-card`).forEach(e=>{e.addEventListener(`click`,e=>{let t=e.target.closest(`.order-card`);t&&(d(t.dataset.orderId),x())})})}function C(){let e=document.querySelector(`#searchInput`);e&&e.addEventListener(`keydown`,e=>{e.key===`Enter`&&(f(e.target.value),x())})}function w(){document.querySelectorAll(`.filter-chip`).forEach(e=>{e.addEventListener(`click`,()=>{p(e.dataset.filter),x()})})}function T(){let e=document.querySelector(`#shipButton`);e&&e.addEventListener(`click`,()=>{m()!==0&&x()})}function E(){return`
     <div class="app-shell">
       <section class="splash-screen" id="splashScreen">
         <div class="splash-logo">PROPEL</div>
@@ -124,4 +124,4 @@ CJ · 경동 배송을 확인하고 출고하세요.
 
       <section class="app-screen is-hidden" id="appScreen"></section>
     </div>
-  `}async function O(){try{await a()}catch(e){alert(`ERP 출고대기 목록을 불러오지 못했습니다.`),console.error(e)}x(),setTimeout(()=>{document.querySelector(`#splashScreen`).classList.add(`is-hidden`),document.querySelector(`#appScreen`).classList.remove(`is-hidden`)},800)}document.querySelector(`#app`).innerHTML=D(),O();
+  `}async function D(){try{await a()}catch(e){alert(`ERP 출고대기 목록을 불러오지 못했습니다.`),console.error(e)}x(),setTimeout(()=>{document.querySelector(`#splashScreen`).classList.add(`is-hidden`),document.querySelector(`#appScreen`).classList.remove(`is-hidden`)},800)}document.querySelector(`#app`).innerHTML=E(),D();
