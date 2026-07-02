@@ -7,7 +7,7 @@
       />
       <span class="pds-checkbox-box"></span>
     </label>
-  `}function g(e){let t=e.status===`DONE`,n=e.selected,r=t?`출고완료`:`출고대기`,i=t?`done`:`ready`,a=e.invoiceNo?e.invoiceNo:`운송장 없음`;return`
+  `}function g(e){let t=e.status===`DONE`,n=e.selected,r=t?`출고완료`:`출고대기`,i=t?`done`:`ready`,a=e.shippingType?e.shippingType:`운송장 없음`;return`
     <article 
       class="order-card card ${t?`is-done`:``} ${n?`is-selected`:``}"
       data-order-id="${e.id}"
@@ -33,7 +33,7 @@
         </div>
 
         <div class="order-meta">
-          <span>Qty ${e.qty}</span>
+          <span>Qty ${e.orderQty}</span>
           <span>🚚 ${a}</span>
         </div>
       </div>
@@ -111,7 +111,7 @@
     >
       ${t}
     </button>
-  `}function b(){let e=l().length;return y({id:`shipButton`,text:e>0?`선택 ${e}건 출고완료`:`선택 0건`,variant:e>0?`primary`:`disabled`,disabled:e===0})}function x(){document.querySelector(`#appScreen`).innerHTML=v({bottomAction:b()}),S(),w(),C(),T()}function S(){document.querySelectorAll(`.order-card`).forEach(e=>{e.addEventListener(`click`,()=>{d(e.dataset.orderId),x()})})}function C(){let e=document.querySelector(`#searchInput`);e&&(e.addEventListener(`input`,e=>{f(e.target.value)}),e.addEventListener(`change`,()=>{x()}))}function w(){document.querySelectorAll(`.filter-chip`).forEach(e=>{e.addEventListener(`click`,()=>{p(e.dataset.filter),x()})})}function T(){let e=document.querySelector(`#shipButton`);e&&e.addEventListener(`click`,()=>{m()!==0&&x()})}function E(){return`
+  `}function b(){let e=l().length;return y({id:`shipButton`,text:e>0?`선택 ${e}건 출고완료`:`선택 0건`,variant:e>0?`primary`:`disabled`,disabled:e===0})}function x(){document.querySelector(`#appScreen`).innerHTML=v({bottomAction:b()}),S(),w(),C(),T()}function S(){document.querySelectorAll(`.order-card`).forEach(e=>{e.addEventListener(`click`,e=>{let t=e.target.closest(`.order-card`);t&&(d(t.dataset.orderId),x())})})}function C(){let e=document.querySelector(`#searchInput`);e&&e.addEventListener(`input`,e=>{f(e.target.value),x()})}function w(){document.querySelectorAll(`.filter-chip`).forEach(e=>{e.addEventListener(`click`,()=>{p(e.dataset.filter),x()})})}function T(){let e=document.querySelector(`#shipButton`);e&&e.addEventListener(`click`,()=>{m()!==0&&x()})}function E(){return`
     <div class="app-shell">
       <section class="splash-screen" id="splashScreen">
         <div class="splash-logo">PROPEL</div>
