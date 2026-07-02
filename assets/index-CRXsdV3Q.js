@@ -55,7 +55,9 @@
       <div class="hero-message">
         <p class="hero-eyebrow">오늘 출고 관리</p>
         <h2>출고 예정 <strong>${n.ready}건</strong></h2>
-        <p>체크한 주문을 한 번에 출고완료 처리합니다.</p>
+        <p><p>
+CJ · 경동 배송을 확인하고 출고하세요.
+</p></p>
       </div>
     </header>
 
@@ -117,7 +119,7 @@
         <div class="splash-logo">PROPEL</div>
         <div class="splash-product">ScanGo Core</div>
         <div class="splash-subtitle">Daily Shipping Manager</div>
-        <div class="splash-loader"></div>
+        
       </section>
 
       <section class="app-screen is-hidden" id="appScreen"></section>
