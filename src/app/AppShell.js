@@ -87,8 +87,13 @@ function bindActionEvents() {
 
       const completedCount = await completeSelectedOrders();
 
-      if (completedCount === 0) return;
+      if (completedCount === 0) {
+        alert("출고완료 처리된 주문이 없습니다.");
+        renderAppScreen();
+        return;
+      }
 
+      alert(`${completedCount}건 출고완료 처리되었습니다.`);
       renderAppScreen();
     } catch (err) {
       alert("출고완료 처리 실패");
