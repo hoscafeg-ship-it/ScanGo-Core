@@ -87,21 +87,9 @@
   opacity: 0.8;
 }
 
-.splash-loader {
-  width: 34px;
-  height: 34px;
-  margin: 28px auto 0;
-  border: 3px solid rgba(255, 255, 255, 0.35);
-  border-top-color: white;
-  border-radius: 999px;
-  animation: spin 0.9s linear infinite;
-}
+ 
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+
 .header-top {
   display: flex;
   align-items: flex-start;
@@ -209,12 +197,13 @@
   color: var(--color-text-muted);
 }
 
-.orde.order-card {
-  display: grid;
-  grid-template-columns: 42px 1fr;
-  gap: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
+.order-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
   transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
@@ -227,11 +216,11 @@
 }
 
 .order-check {
+  flex: 0 0 28px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: 2px;
 }
-
 
 
 .order-top {
@@ -242,14 +231,14 @@
 }
 
 .order-id {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 950;
   letter-spacing: -0.03em;
   color: var(--color-text);
 }
 
 .status-badge {
-  padding: 6px 10px;
+  padding: 5px 9px;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 900;
@@ -271,10 +260,15 @@
   gap: 8px;
   align-items: flex-start;
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.35;
 }
 
+
+.order-content {
+  flex: 1;
+  min-width: 0;
+}
 .order-icon {
   width: 20px;
   flex: 0 0 20px;
@@ -293,7 +287,7 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 12px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--color-text-muted);
 }

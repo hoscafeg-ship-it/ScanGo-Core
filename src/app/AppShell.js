@@ -1,14 +1,17 @@
 
-
 import {
+  getVisibleOrders,
   getSelectedOrders,
   toggleOrderSelected,
   setSearchText,
   setFilter,
   completeSelectedOrders,
+  refreshOrders,
 } from "../store/orderStore.js";
 import { createHomePage } from "../pages/Home/HomePage.js";
 import { createButton } from "../components/pds/Button/Button.js";
+import { createOrderList } from "../components/order/OrderList.js";
+import { createOrderCard } from "../components/order/OrderCard.js";
 
 function createBottomAction() {
   const selectedCount = getSelectedOrders().length;
@@ -38,23 +41,27 @@ bindActionEvents();
 
 function bindOrderEvents() {
   document.querySelectorAll(".order-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      toggleOrderSelected(card.dataset.orderId);
+    card.addEventListener("click", (event) => {
+      const clickedCard = event.target.closest(".order-card");
+
+      if (!clickedCard) return;
+
+      toggleOrderSelected(clickedCard.dataset.orderId);
       renderAppScreen();
     });
   });
 }
+let searchTimer = null;
 
 function bindSearchEvent() {
   const input = document.querySelector("#searchInput");
 
   if (!input) return;
 
-  input.addEventListener("input", (e) => {
-    setSearchText(e.target.value);
-  });
+  input.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
 
-  input.addEventListener("change", () => {
+    setSearchText(e.target.value);
     renderAppScreen();
   });
 }
@@ -73,12 +80,21 @@ function bindActionEvents() {
 
   if (!shipButton) return;
 
-  shipButton.addEventListener("click", () => {
-    const completedCount = completeSelectedOrders();
+  shipButton.addEventListener("click", async () => {
+    try {
+      shipButton.disabled = true;
+      shipButton.textContent = "출고 처리중...";
 
-    if (completedCount === 0) return;
+      const completedCount = await completeSelectedOrders();
 
-    renderAppScreen();
+      if (completedCount === 0) return;
+
+      renderAppScreen();
+    } catch (err) {
+      alert("출고완료 처리 실패");
+      console.error(err);
+      renderAppScreen();
+    }
   });
 }
 
@@ -89,7 +105,7 @@ export function createAppShell() {
         <div class="splash-logo">PROPEL</div>
         <div class="splash-product">ScanGo Core</div>
         <div class="splash-subtitle">Daily Shipping Manager</div>
-        <div class="splash-loader"></div>
+        
       </section>
 
       <section class="app-screen is-hidden" id="appScreen"></section>
@@ -97,11 +113,32 @@ export function createAppShell() {
   `;
 }
 
-export function startAppShell() {
+export async function startAppShell() {
+  try {
+    await refreshOrders();
+  } catch (err) {
+    alert("ERP 출고대기 목록을 불러오지 못했습니다.");
+    console.error(err);
+  }
+
   renderAppScreen();
 
   setTimeout(() => {
     document.querySelector("#splashScreen").classList.add("is-hidden");
     document.querySelector("#appScreen").classList.remove("is-hidden");
   }, 800);
+}
+
+function renderOrderListOnly() {
+
+  const orderList = document.querySelector("#orderList");
+
+  if (!orderList) return;
+
+  orderList.innerHTML = getVisibleOrders()
+    .map(createOrderCard)
+    .join("");
+
+  bindOrderEvents();
+
 }

@@ -5,7 +5,7 @@ export function createOrderCard(order) {
   const isSelected = order.selected;
   const statusText = isDone ? "출고완료" : "출고대기";
   const statusClass = isDone ? "done" : "ready";
-  const invoiceText = order.invoiceNo ? order.invoiceNo : "운송장 없음";
+  const invoiceText = order.shippingType ? order.shippingType : "운송장 없음";
 
   return `
     <article 
@@ -36,7 +36,7 @@ export function createOrderCard(order) {
         </div>
 
         <div class="order-meta">
-          <span>Qty ${order.qty}</span>
+          <span>Qty ${order.orderQty}</span>
           <span>🚚 ${invoiceText}</span>
         </div>
       </div>

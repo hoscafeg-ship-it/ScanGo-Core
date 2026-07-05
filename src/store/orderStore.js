@@ -1,10 +1,10 @@
-import { mockOrders } from "../data/mockOrders.js";
+import {
+  loadReadyOrders,
+  completeOrders as completeOrdersApi,
+} from "../services/orderApi.js";
 
 const state = {
-  orders: mockOrders.map((order) => ({
-    ...order,
-    selected: false,
-  })),
+  orders: [],
   searchText: "",
   filter: "ALL",
   loading: false,
@@ -15,6 +15,31 @@ export const ORDER_FILTERS = [
   { value: "READY", label: "출고대기" },
   { value: "DONE", label: "출고완료" },
 ];
+
+function normalizeOrder(order) {
+  return {
+    id: order.orderItemNo,
+    orderItemNo: order.orderItemNo,
+    orderNo: order.orderNo,
+    productName: order.productName,
+    orderQty: order.orderQty,
+    receiver: order.receiver,
+    shippingType: order.shippingType,
+    status: order.status === "출고대기" ? "READY" : order.status,
+    selected: false,
+  };
+}
+
+export async function refreshOrders() {
+  state.loading = true;
+
+  try {
+    const orders = await loadReadyOrders();
+    state.orders = orders.map(normalizeOrder);
+  } finally {
+    state.loading = false;
+  }
+}
 
 /* getters */
 export function getSearchText() {
@@ -84,21 +109,18 @@ export function setFilter(filter) {
   state.filter = filter;
 }
 
-export function completeSelectedOrders() {
-  let completedCount = 0;
+export async function completeSelectedOrders() {
+  const selectedOrders = state.orders.filter(
+    (order) => order.selected && order.status === "READY"
+  );
 
-  state.orders = state.orders.map((order) => {
-    if (!order.selected) return order;
-    if (order.status !== "READY") return order;
+  if (selectedOrders.length === 0) return 0;
 
-    completedCount++;
+  const orderItemNos = selectedOrders.map((order) => order.orderItemNo);
 
-    return {
-      ...order,
-      status: "DONE",
-      selected: false,
-    };
-  });
+  const result = await completeOrdersApi(orderItemNos);
 
-  return completedCount;
+  await refreshOrders();
+
+  return result.completedCount || 0;
 }
