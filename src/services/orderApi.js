@@ -19,7 +19,6 @@ export async function loadReadyOrders() {
 export async function completeOrders(orderItemNos) {
   const url =
     `${API_BASE_URL}?action=completeOrders&orderItemNos=${encodeURIComponent(JSON.stringify(orderItemNos))}`;
-
   const response = await fetch(url);
 
   if (!response.ok) {
