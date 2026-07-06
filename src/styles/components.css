@@ -212,7 +212,9 @@
 }
 
 .order-card.is-done {
-  opacity: 0.78;
+  opacity: 0.55;
+  background: #f5f5f5;
+  border-color: #d7d7d7;
 }
 
 .order-check {
@@ -251,8 +253,14 @@
 }
 
 .status-badge.done {
-  background: #eef2ff;
-  color: #3730a3;
+  background: #ececec;
+  color: #6b7280;
+}
+
+.order-card.is-done .order-id,
+.order-card.is-done .product-line,
+.order-card.is-done .order-line strong{
+    color:#8b8b8b;
 }
 
 .order-line {
@@ -297,6 +305,8 @@
   box-shadow: 0 12px 28px rgba(52, 168, 83, 0.18);
 }
 
+
+
 .pds-checkbox {
   display: inline-flex;
   align-items: center;
@@ -333,4 +343,91 @@
 .pds-checkbox input:disabled + .pds-checkbox-box {
   background: #e5e7eb;
   border-color: #e5e7eb;
+}
+.order-actions{
+    margin-top:12px;
+    display:flex;
+    justify-content:flex-end;
+}
+
+.cancel-button{
+    background:#ffffff;
+    border:1px solid #cbd5e1;
+    color:#374151;
+    border-radius:8px;
+    padding:8px 12px;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.cancel-button:hover{
+    background:#f3f4f6;
+}
+
+.confirm-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.confirm-modal-backdrop.is-hidden {
+  display: none;
+}
+
+.confirm-modal {
+  width: 100%;
+  max-width: 340px;
+  padding: 20px;
+  text-align: center;
+}
+
+.confirm-modal-icon {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.confirm-modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.confirm-modal-message {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.confirm-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.confirm-modal-cancel,
+.confirm-modal-confirm {
+  flex: 1;
+  height: 42px;
+  border-radius: 10px;
+  font-weight: 900;
+}
+
+.confirm-modal-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.confirm-modal-confirm {
+  background: var(--color-primary);
+  color: white;
+}
+
+.confirm-modal-confirm.danger {
+  background: var(--color-danger);
 }

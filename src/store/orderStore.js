@@ -1,7 +1,9 @@
 import {
   loadReadyOrders,
   completeOrders as completeOrdersApi,
+  cancelCompletedOrders,
 } from "../services/orderApi.js";
+
 
 const state = {
   orders: [],
@@ -25,7 +27,12 @@ function normalizeOrder(order) {
     orderQty: order.orderQty,
     receiver: order.receiver,
     shippingType: order.shippingType,
-    status: order.status === "출고대기" ? "READY" : order.status,
+    status:
+      order.status === "출고대기"
+        ? "READY"
+        : order.status === "출고완료"
+          ? "DONE"
+          : order.status,
     selected: false,
   };
 }
@@ -68,6 +75,15 @@ export function getVisibleOrders() {
   if (state.filter !== "ALL") {
     orders = orders.filter((order) => order.status === state.filter);
   }
+
+  orders.sort((a, b) => {
+  const statusOrder = {
+    READY: 1,
+    DONE: 2,
+  };
+
+  return (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99);
+});
 
   return orders;
 }
@@ -123,4 +139,13 @@ export async function completeSelectedOrders() {
   await refreshOrders();
 
   return result.completedCount || 0;
+}
+export async function cancelOrder(orderId) {
+
+  await cancelCompletedOrders([
+    orderId
+  ]);
+
+  await refreshOrders();
+
 }

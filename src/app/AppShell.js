@@ -1,4 +1,5 @@
 
+import { createConfirmModal } from "../components/pds/ConfirmModal/ConfirmModal.js";
 import {
   getVisibleOrders,
   getSelectedOrders,
@@ -7,11 +8,15 @@ import {
   setFilter,
   completeSelectedOrders,
   refreshOrders,
+  cancelOrder,
 } from "../store/orderStore.js";
 import { createHomePage } from "../pages/Home/HomePage.js";
 import { createButton } from "../components/pds/Button/Button.js";
 import { createOrderList } from "../components/order/OrderList.js";
 import { createOrderCard } from "../components/order/OrderCard.js";
+
+
+let pendingCancelOrderId = null;
 
 function createBottomAction() {
   const selectedCount = getSelectedOrders().length;
@@ -36,6 +41,7 @@ function renderAppScreen() {
 bindFilterEvents();
 bindSearchEvent();
 bindActionEvents();
+bindCancelOrderEvents();
   
 }
 
@@ -95,12 +101,69 @@ function bindActionEvents() {
 
       alert(`${completedCount}건 출고완료 처리되었습니다.`);
       renderAppScreen();
+
     } catch (err) {
-      alert("출고완료 처리 실패");
+      alert(`출고완료 처리 실패\n\n${err.message || err}`);
       console.error(err);
       renderAppScreen();
     }
   });
+}
+
+function bindCancelOrderEvents() {
+  document.querySelectorAll("[data-cancel-order-id]").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+
+      pendingCancelOrderId = button.dataset.cancelOrderId;
+
+      openModal("cancelShipmentModal");
+    });
+  });
+}
+
+function bindModalEvents() {
+  document.querySelectorAll("[data-modal-cancel]").forEach((button) => {
+    button.addEventListener("click", () => {
+      closeModal(button.dataset.modalCancel);
+      pendingCancelOrderId = null;
+    });
+  });
+}
+function bindModalConfirmEvents(){
+
+ document.querySelectorAll("[data-modal-confirm]").forEach(button=>{
+
+ button.addEventListener("click",async()=>{
+
+ if(!pendingCancelOrderId) return;
+
+ await cancelOrder(pendingCancelOrderId);
+
+ closeModal("cancelShipmentModal");
+
+ pendingCancelOrderId=null;
+
+ renderAppScreen();
+
+ });
+
+ });
+
+}
+
+function openModal(id) {
+  const modal = document.querySelector(`#${id}`);
+  if (!modal) return;
+
+  modal.classList.remove("is-hidden");
+}
+
+function closeModal(id) {
+  const modal = document.querySelector(`#${id}`);
+  if (!modal) return;
+
+  modal.classList.add("is-hidden");
 }
 
 export function createAppShell() {
@@ -114,6 +177,14 @@ export function createAppShell() {
       </section>
 
       <section class="app-screen is-hidden" id="appScreen"></section>
+      ${createConfirmModal({
+  id: "cancelShipmentModal",
+  title: "출고취소",
+  message: "선택한 주문의 출고를 취소하시겠습니까?",
+  cancelText: "아니오",
+  confirmText: "출고취소",
+  danger: true,
+})}
     </div>
   `;
 }
@@ -127,6 +198,8 @@ export async function startAppShell() {
   }
 
   renderAppScreen();
+  bindModalEvents();
+  bindModalConfirmEvents();
 
   setTimeout(() => {
     document.querySelector("#splashScreen").classList.add("is-hidden");
@@ -147,3 +220,4 @@ function renderOrderListOnly() {
   bindOrderEvents();
 
 }
+

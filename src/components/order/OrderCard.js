@@ -5,19 +5,19 @@ export function createOrderCard(order) {
   const isSelected = order.selected;
   const statusText = isDone ? "출고완료" : "출고대기";
   const statusClass = isDone ? "done" : "ready";
-  const invoiceText = order.shippingType ? order.shippingType : "운송장 없음";
+  const shippingText = order.shippingType ? order.shippingType : "배송방법 없음";
 
   return `
     <article 
       class="order-card card ${isDone ? "is-done" : ""} ${isSelected ? "is-selected" : ""}"
       data-order-id="${order.id}"
     >
-<div class="order-check">
-  ${createCheckbox({
-    checked: isSelected,
-    disabled: isDone,
-  })}
-</div>
+      <div class="order-check">
+        ${createCheckbox({
+          checked: isSelected || isDone,
+          disabled: isDone,
+        })}
+      </div>
 
       <div class="order-content">
         <div class="order-top">
@@ -36,9 +36,20 @@ export function createOrderCard(order) {
         </div>
 
         <div class="order-meta">
-          <span>Qty ${order.orderQty}</span>
-          <span>🚚 ${invoiceText}</span>
+          <span>📦 ${order.orderQty}개</span>
+          <span>🚚 ${shippingText}</span>
         </div>
+
+        ${isDone ? `
+          <div class="order-actions">
+            <button
+              type="button"
+              class="cancel-button"
+              data-cancel-order-id="${order.id}">
+              ↩ 출고취소
+            </button>
+          </div>
+        ` : ""}
       </div>
     </article>
   `;
